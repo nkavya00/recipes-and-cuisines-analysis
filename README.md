@@ -64,6 +64,7 @@ The dataset and the central question are highly relevant for anyone interested i
 
 Stay tuned as we explore this dataset and uncover the secrets of global cuisines through data analysis and machine learning!
 
+---
 
 ## Data Cleaning and Exploratory Data Analysis
 
@@ -93,7 +94,11 @@ By the end of this cleaning process, the dataset was reduced to include only the
 |        45 | ['pre-heat oven the 350 degrees f', 'in a mixing b...] | this is the recipe that we use at my school cafete... | ['white sugar', 'brown sugar', 'salt', 'margarine'...] |                5 |         1.53134 | canadian                    |
 
 
-**Univariate Analysis**:  
+---
+
+**Univariate Analysis**: 
+
+First, I wanted to look at the distribution of cuisines, as is seen below.
 
 <iframe
   src="assets/univar.html"
@@ -101,3 +106,89 @@ By the end of this cleaning process, the dataset was reduced to include only the
   height="600"
   frameborder="0"
 ></iframe>
+
+From this graph, I can tell there is an imbalance in the dataset, with American and European cuisines heavily dominating (around 8000 entries each) while many other cuisines like Korean, Malaysian and Thai have fewer than 100 entries each. This imbalanced distribution suggests that while predicting cuisine from ingredients might be possible, my model would likely show bias towards American and European cuisines so I need to ensure I specifically address the class imbalance issue.
+
+Next, since my model will be predicting the cuisine at least partially based on the ingredients, I want to see the distribution of the most common ingredients as well. 
+
+## INSERT INGREDIENTS UNIVARIATE HERE 
+
+Looking at the distribution of ingredients across recipes, I found that salt is overwhelmingly the most common ingredient with over 10,000 appearances, followed by a cluster of fundamental ingredients like olive oil, butter, onion, and garlic cloves each appearing in around 5,000 recipes. This pattern suggests that these basic ingredients form the foundation of cooking across many cuisines, which could make them less useful as distinguishing features for predicting specific cuisines, and might be something to look out for in creating my model.
+
+---
+
+**Bivariate Analysis**: 
+
+Next, I conducted some bivariate analyses in order to examine relationships between cuisines and other variables in the dataset. First, I looked at if different cuisines had different health ratings, as this was a variable I was planning on training my model with. The graph of the relationship between cuisine and health rating is shown below:
+
+## INSERT HEALTH RATING BIVARIATE HERE 
+
+Examining the average health ratings across cuisines, I found that Pakistani and Turkish cuisines rank highest with scores above 7, while Irish cuisine ranks lowest at 4.19. Interestingly, many Asian cuisines like Japanese, Korean, and Chinese fall in the middle range around 6-7. From my definition and calculation of health rating, lower health ratings indicate healthier dishes, which tells me that some cuisines tend to have healthier dishes than others. Although this distribution is relatively balanced, there are differences between these cuisines that did prove useful in establishing my model. 
+
+Next, I also wanted to look at preparation times for each cuisine - the graph is shown below:
+
+
+## INSERT MINUTES BIVARIATE HERE 
+
+From this plot, I can see German and Korean cuisines stand out as requiring significantly more preparation time, averaging around 270-280 minutes, while Filipino and Australian dishes are the quickest to prepare at under 50 minutes. This substantial time variation between cuisines (from 50 to 280 minutes) was an important feature for cuisine prediction, because it reflected fundamental differences in cooking techniques and complexity.
+
+Finally, since I predicted that different cuisines would use different ingredients, I also wanted to make a graph to see the most common ingredients for different cuisines. 
+
+## INSERT INGREDIENTS BIVARIATE HERE 
+
+Add in description of graph here!!
+
+---
+
+**Interesting Aggregates**: 
+
+Add in info here later!!!
+
+
+**Imputation**: 
+
+In our analysis we did not impute any values as all of our columns of interest already had all of the data we needed and had already been cleaned, and thus we felt as though we could just move on with our prediction.
+
+## Framing a Prediction Problem
+
+This is a multiclass classification problem where I aim to predict the cuisine category of a dish (e.g., American, European, Asian, etc.) using features that would be known before the cuisine is identified. My response variable is the `cuisines` column, which I chose because it directly addresses my research question of whether we can identify a dish's culinary origin based on its characteristics.
+For model evaluation, I plan to use the F1-score rather than simple accuracy because:
+
+1. My dataset is heavily imbalanced (as shown in my univariate analysis where American/European cuisines dominate)
+2. F1-score provides a balanced measure of precision and recall, which is crucial when dealing with imbalanced classes
+3. It will help ensure my model performs well across all cuisine types, not just the dominant ones
+
+The features I will use for prediction include:
+
+- Ingredients (as these define the core composition of the dish)
+- Minutes (preparation time)
+- Health rating (calculated from nutritional information)
+
+I specifically excluded features like user ratings and reviews since these would only be available after a recipe is already categorized with its cuisine. This ensures my model only uses information that would be available at the "time of prediction" - when someone is trying to identify a cuisine based on a new recipe's characteristics.
+
+## Baseline Model
+
+My model uses a Random Forest Classifier with features that include both quantitative and categorical variables:
+
+- Quantitative (1): `minutes` (preparation time)
+- Nominal (1): `ingredients` (text data converted to numerical features using TF-IDF vectorization)
+
+To handle these different types of features, I implemented a preprocessing pipeline that:
+
+1. Applies StandardScaler to the 'minutes' feature to normalize the numerical data
+2. Uses TF-IDF vectorization for the 'ingredients' feature, converting the text data into a numerical matrix with 5000 features
+3. Addresses class imbalance using balanced class weights, which I computed based on the training data distribution
+
+The model achieved an accuracy of 46.3% on the test set, with varying performance across different cuisines. Looking at the classification report:
+
+- Some cuisines like Mexican (F1=0.69), Chinese (F1=0.65), and Indian (F1=0.64) show relatively good prediction performance
+- Others like Canadian, Central-American, Hawaiian, and Malaysian have F1-scores of 0, likely due to limited representation in the training data
+- The weighted average F1-score is 0.42, reflecting the challenge of predicting across highly imbalanced classes
+
+I would not consider this current model "good" because:
+
+1. The overall accuracy of 46.3% is relatively low for practical applications
+2. The model completely fails to predict several cuisines
+3. There's significant variation in performance across different cuisines, indicating bias towards better-represented classes
+
+## Final Model
