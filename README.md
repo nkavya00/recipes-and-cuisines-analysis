@@ -111,7 +111,12 @@ From this graph, I can tell there is an imbalance in the dataset, with American 
 
 Next, since my model will be predicting the cuisine at least partially based on the ingredients, I want to see the distribution of the most common ingredients as well. 
 
-## INSERT INGREDIENTS UNIVARIATE HERE 
+<iframe
+  src="assets/top_ingredients.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
 
 Looking at the distribution of ingredients across recipes, I found that salt is overwhelmingly the most common ingredient with over 10,000 appearances, followed by a cluster of fundamental ingredients like olive oil, butter, onion, and garlic cloves each appearing in around 5,000 recipes. This pattern suggests that these basic ingredients form the foundation of cooking across many cuisines, which could make them less useful as distinguishing features for predicting specific cuisines, and might be something to look out for in creating my model.
 
@@ -121,22 +126,44 @@ Looking at the distribution of ingredients across recipes, I found that salt is 
 
 Next, I conducted some bivariate analyses in order to examine relationships between cuisines and other variables in the dataset. First, I looked at if different cuisines had different health ratings, as this was a variable I was planning on training my model with. The graph of the relationship between cuisine and health rating is shown below:
 
-## INSERT HEALTH RATING BIVARIATE HERE 
+<iframe
+  src="assets/bivar1.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
 
 Examining the average health ratings across cuisines, I found that Pakistani and Turkish cuisines rank highest with scores above 7, while Irish cuisine ranks lowest at 4.19. Interestingly, many Asian cuisines like Japanese, Korean, and Chinese fall in the middle range around 6-7. From my definition and calculation of health rating, lower health ratings indicate healthier dishes, which tells me that some cuisines tend to have healthier dishes than others. Although this distribution is relatively balanced, there are differences between these cuisines that did prove useful in establishing my model. 
 
 Next, I also wanted to look at preparation times for each cuisine - the graph is shown below:
 
 
-## INSERT MINUTES BIVARIATE HERE 
+<iframe
+  src="assets/bivar2.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
 
 From this plot, I can see German and Korean cuisines stand out as requiring significantly more preparation time, averaging around 270-280 minutes, while Filipino and Australian dishes are the quickest to prepare at under 50 minutes. This substantial time variation between cuisines (from 50 to 280 minutes) was an important feature for cuisine prediction, because it reflected fundamental differences in cooking techniques and complexity.
 
-Finally, since I predicted that different cuisines would use different ingredients, I also wanted to make a graph to see the most common ingredients for different cuisines. 
+Finally, since I predicted that different cuisines would use different ingredients, I also wanted to make some graphs to see the most common ingredients for different cuisines. 
 
-## INSERT INGREDIENTS BIVARIATE HERE 
+<iframe
+  src="assets/ingredient_distribution_scatterplot.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
 
-Add in description of graph here!!
+<iframe
+  src="assets/ingredient_distribution_heatmap.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+The heatmap and scatter plot reveal distinct ingredient usage patterns across different cuisines. European and American cuisines show the highest diversity and frequency of ingredient usage (as shown by the more frequent and brighter spots in the heatmap and higher dots in the scatter plot), while cuisines like Malaysian, Korean, and Turkish have more concentrated and specific ingredient profiles (shown by fewer but distinct ingredient patterns). These trends support our hypothesis that ingredients can be useful predictors of cuisine type, though the strong overlap in common ingredients (like salt, butter, and onions) across multiple cuisines suggests we'll need to rely on the unique combinations of ingredients rather than individual ingredients alone for accurate cuisine prediction.
 
 ---
 
@@ -191,4 +218,54 @@ I would not consider this current model "good" because:
 2. The model completely fails to predict several cuisines
 3. There's significant variation in performance across different cuisines, indicating bias towards better-represented classes
 
+
 ## Final Model
+
+Based on our analysis of the recipe data and understanding of cuisine classification, we significantly enhanced our Final Model by incorporating several key features and improvements:
+
+### Features Added and Their Significance:
+
+1. **Text-Based Features**:
+   - **Recipe Names**: We included recipe names because they often contain strong cultural and regional indicators (e.g., "Pad Thai" or "Beef Bourguignon") that directly hint at their cuisine origins.
+   - **Recipe Descriptions**: Descriptions frequently contain cultural context, traditional serving suggestions, and historic background that can help identify a cuisine's origin.
+   - **Cooking Steps**: We added detailed cooking steps because cooking techniques vary significantly across cuisines (e.g., stir-frying in Chinese cuisine vs. slow-cooking in French cuisine).
+
+2. **Additional Numerical Features**:
+   - **Health Rating**: Based on our bivariate analysis showing distinct nutritional patterns across cuisines (e.g., Pakistani cuisine having higher health ratings than Irish cuisine), we included this as a discriminating feature.
+   - **Average Rating**: While not directly indicative of cuisine type, ratings can help identify authentic recipe versions within each cuisine category.
+
+3. **Enhanced Ingredients Processing**:
+   - We developed a custom IngredientsVectorizer that better captures the nuanced relationships between ingredients and cuisines.
+   - Limited to top 1000 ingredients to focus on the most significant ingredients while reducing noise from rare or misspelled items.
+   - Used binary encoding to capture ingredient presence, as quantities are less relevant for cuisine classification.
+
+### Model Architecture and Hyperparameter Selection:
+
+We chose a Random Forest Classifier as our base algorithm due to its ability to:
+- Handle mixed data types (numerical and categorical features)
+- Capture complex interactions between ingredients and other features
+- Provide feature importance rankings
+- Resist overfitting through ensemble learning
+
+Key hyperparameter choices included:
+- Increasing n_estimators to 200 for better model stability
+- Using separate preprocessing pipelines for different feature types:
+  * StandardScaler for numerical features
+  * TfidfVectorizer with max_features=1000-2000 and min_df=2 for text features
+- Implementing FeatureUnion to combine different feature types effectively
+
+### Performance Improvements:
+
+Our Final Model showed substantial improvements over the Baseline Model:
+- Overall accuracy increased from 45% to 56%
+- Significant improvements in cuisine-specific metrics:
+  * Indian cuisine: F1-score improved from 0.64 to 0.78
+  * African cuisine: F1-score improved from 0.46 to 0.66
+  * Chinese cuisine: F1-score improved from 0.67 to 0.73
+- Better handling of minority classes:
+  * Japanese cuisine: Precision increased from 0.82 to 0.93
+  * German cuisine: F1-score improved from 0.13 to 0.62
+
+While some very rare cuisines (e.g., Filipino, central-American) still show poor performance due to limited training data, our model's overall weighted average F1-score improved from 0.40 to 0.53, indicating more balanced and robust performance across cuisines. This improvement suggests that our comprehensive feature set better captures the complex relationships between recipe characteristics and cuisine classifications.
+
+The success of these enhancements aligns with our understanding of how cuisines are differentiated in the real world - not just by ingredients alone, but by the combination of ingredients, cooking methods, cultural context, and nutritional profiles. Our Final Model better reflects this multifaceted nature of cuisine classification.
