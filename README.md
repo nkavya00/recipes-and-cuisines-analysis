@@ -91,3 +91,13 @@ By the end of this cleaning process, the dataset was reduced to include only the
 |        15 | ['preheat oven to 350 degrees , and line a baking ...] | i came across these cookies once by accident, and ... | ['natural-style peanut butter', 'sugar substitute'...] |                2 |         6.71192 | canadian                    |
 |        50 | ['mix batter ingredients in a 9-1 / 2-inch deep di...] | a quick recipe with only 20 minutes preparation us... | ['cooking spray', 'all-purpose flour', 'fast risin...] |                5 |         7.94085 | european, american, italian |
 |        45 | ['pre-heat oven the 350 degrees f', 'in a mixing b...] | this is the recipe that we use at my school cafete... | ['white sugar', 'brown sugar', 'salt', 'margarine'...] |                5 |         1.53134 | canadian                    |
+
+
+**Univariate Analysis**:  
+
+<iframe
+  src="assets/univar.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
