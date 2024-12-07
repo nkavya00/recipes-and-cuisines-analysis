@@ -211,7 +211,7 @@ This aggregate analysis reveals several interesting insights:
 1. Asian cuisines (Pakistani, Japanese, Korean, Chinese) tend to have higher health ratings on average
 2. Korean cuisine stands out with the longest average preparation time (278.45 minutes)
 3. Mexican cuisine combines a moderate health rating with relatively quick preparation times
-4. There's no strong correlation between preparation time and health rating or average rating, suggesting these are independent characteristics of different cuisines
+4. There's no strong correlation between preparation time and health rating, suggesting these are independent characteristics of different cuisines
 
 These patterns helped inform our model so we would know when adding numerical features into it, which would have a strong impact and which would have less of one as features in our classification model.
 
