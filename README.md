@@ -81,7 +81,9 @@ Stay tuned as we explore this dataset and uncover the secrets of global cuisines
 
 By the end of this cleaning process, the dataset was reduced to include only the essential columns required for our analysis: `minutes`, `description`, `steps`, `ingredients`, `average_rating`, `health_rating`, and `cuisines`. This cleaned dataset provided a strong foundation for conducting exploratory data analysis and building predictive models. The head of our final cleaned `merged` dataframe is shown below:
 
-(For better readability, the outputs are truncated)
+(For better readability, the outputs are truncated):
+
+
 |   minutes | steps                                                 | description                                           | ingredients                                           |   average_rating |   health_rating | cuisines                    |
 |----------:|:------------------------------------------------------|:------------------------------------------------------|:------------------------------------------------------|-----------------:|----------------:|:----------------------------|
 |         5 | ['rinse martini glass with extra dry vermouth', 'a...] | based on a recipe from ray foley's the ultimate li... | ['dry vermouth', 'vodka', 'gin', 'lillet blanc']      |                5 |         9.64705 | european                    |
