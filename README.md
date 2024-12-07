@@ -98,7 +98,7 @@ By the end of this cleaning process, the dataset was reduced to include only the
 
 **Univariate Analysis**: 
 
-First, I wanted to look at the distribution of cuisines, as is seen below.
+First, we wanted to look at the distribution of cuisines, as is seen below.
 
 <iframe
   src="assets/univar.html"
@@ -107,9 +107,9 @@ First, I wanted to look at the distribution of cuisines, as is seen below.
   frameborder="0"
 ></iframe>
 
-From this graph, I can tell there is an imbalance in the dataset, with American and European cuisines heavily dominating (around 8000 entries each) while many other cuisines like Korean, Malaysian and Thai have fewer than 100 entries each. This imbalanced distribution suggests that while predicting cuisine from ingredients might be possible, my model would likely show bias towards American and European cuisines so I need to ensure I specifically address the class imbalance issue.
+From this graph, we can tell there is an imbalance in the dataset, with American and European cuisines heavily dominating (around 8000 entries each) while many other cuisines like Korean, Malaysian and Thai have fewer than 100 entries each. This imbalanced distribution suggests that while predicting cuisine from ingredients might be possible, our model would likely show bias towards American and European cuisines so we need to ensure we specifically address the class imbalance issue.
 
-Next, since my model will be predicting the cuisine at least partially based on the ingredients, I want to see the distribution of the most common ingredients as well. 
+Next, since our model will be predicting the cuisine at least partially based on the ingredients, we want to see the distribution of the most common ingredients as well. 
 
 <iframe
   src="assets/top_ingredients.html"
@@ -118,13 +118,13 @@ Next, since my model will be predicting the cuisine at least partially based on 
   frameborder="0"
 ></iframe>
 
-Looking at the distribution of ingredients across recipes, I found that salt is overwhelmingly the most common ingredient with over 10,000 appearances, followed by a cluster of fundamental ingredients like olive oil, butter, onion, and garlic cloves each appearing in around 5,000 recipes. This pattern suggests that these basic ingredients form the foundation of cooking across many cuisines, which could make them less useful as distinguishing features for predicting specific cuisines, and might be something to look out for in creating my model.
+Looking at the distribution of ingredients across recipes, we found that salt is overwhelmingly the most common ingredient with over 10,000 appearances, followed by a cluster of fundamental ingredients like olive oil, butter, onion, and garlic cloves each appearing in around 5,000 recipes. This pattern suggests that these basic ingredients form the foundation of cooking across many cuisines, which could make them less useful as distinguishing features for predicting specific cuisines, and might be something to look out for in creating our model.
 
 ---
 
 **Bivariate Analysis**: 
 
-Next, I conducted some bivariate analyses in order to examine relationships between cuisines and other variables in the dataset. First, I looked at if different cuisines had different health ratings, as this was a variable I was planning on training my model with. The graph of the relationship between cuisine and health rating is shown below:
+Next, we conducted some bivariate analyses in order to examine relationships between cuisines and other variables in the dataset. First, we looked at if different cuisines had different health ratings, as this was a variable we was planning on training our model with. The graph of the relationship between cuisine and health rating is shown below:
 
 <iframe
   src="assets/bivar1.html"
@@ -133,9 +133,9 @@ Next, I conducted some bivariate analyses in order to examine relationships betw
   frameborder="0"
 ></iframe>
 
-Examining the average health ratings across cuisines, I found that Pakistani and Turkish cuisines rank highest with scores above 7, while Irish cuisine ranks lowest at 4.19. Interestingly, many Asian cuisines like Japanese, Korean, and Chinese fall in the middle range around 6-7. From my definition and calculation of health rating, lower health ratings indicate healthier dishes, which tells me that some cuisines tend to have healthier dishes than others. Although this distribution is relatively balanced, there are differences between these cuisines that did prove useful in establishing my model. 
+Examining the average health ratings across cuisines, we found that Pakistani and Turkish cuisines rank highest with scores above 7, while Irish cuisine ranks lowest at 4.19. Interestingly, many Asian cuisines like Japanese, Korean, and Chinese fall in the middle range around 6-7. From our definition and calculation of health rating, lower health ratings indicate healthier dishes, which tells me that some cuisines tend to have healthier dishes than others. Although this distribution is relatively balanced, there are differences between these cuisines that did prove useful in establishing our model. 
 
-Next, I also wanted to look at preparation times for each cuisine - the graph is shown below:
+Next, we also wanted to look at preparation times for each cuisine - the graph is shown below:
 
 
 <iframe
@@ -145,9 +145,9 @@ Next, I also wanted to look at preparation times for each cuisine - the graph is
   frameborder="0"
 ></iframe>
 
-From this plot, I can see German and Korean cuisines stand out as requiring significantly more preparation time, averaging around 270-280 minutes, while Filipino and Australian dishes are the quickest to prepare at under 50 minutes. This substantial time variation between cuisines (from 50 to 280 minutes) was an important feature for cuisine prediction, because it reflected fundamental differences in cooking techniques and complexity.
+From this plot, we can see German and Korean cuisines stand out as requiring significantly more preparation time, averaging around 270-280 minutes, while Filipino and Australian dishes are the quickest to prepare at under 50 minutes. This substantial time variation between cuisines (from 50 to 280 minutes) was an important feature for cuisine prediction, because it reflected fundamental differences in cooking techniques and complexity.
 
-Finally, since I predicted that different cuisines would use different ingredients, I also wanted to make some graphs to see the most common ingredients for different cuisines. 
+Finally, since we predicted that different cuisines would use different ingredients, we also wanted to make some graphs to see the most common ingredients for different cuisines. 
 
 <iframe
   src="assets/ingredient_distribution_scatterplot.html"
@@ -169,7 +169,18 @@ The heatmap and scatter plot reveal distinct ingredient usage patterns across di
 
 **Interesting Aggregates**: 
 
-Add in info here later!!!
+To better understand the relationship between cuisines, health ratings, preparation times and average star ratings, we created a pivot table that shows the average health rating and preparation time for each cuisine type. The table reveals some interesting patterns:
+
+'| cuisines               |   Average Health Rating |   Average Preparation Time (mins) |\n|:-----------------------|-----------------:|----------------------------------:|\n| pakistani              |             7.32 |                             58.26 |\n| turkish                |             7.26 |                             49.52 |\n| indian                 |             7.01 |                             70.18 |\n| spanish                |             6.9  |                            125.65 |\n| central-american       |             6.87 |                             91.21 |\n| middle-eastern         |             6.85 |                            113.93 |\n| greek                  |             6.77 |                             66.79 |\n| chinese                |             6.75 |                             73.11 |\n| russian                |             6.7  |                             78.79 |\n| mexican                |             6.64 |                            101.2  |\n| italian                |             6.48 |                             71.85 |\n| korean                 |             6.34 |                            292.76 |\n| african                |             6.23 |                            113.18 |\n| french                 |             6.22 |                            208.66 |\n| australian             |             5.97 |                             48.12 |\n| portuguese             |             5.94 |                            187.67 |\n| european               |             5.9  |                            104.28 |\n| german                 |             5.89 |                            285.92 |\n| scandinavian           |             5.78 |                             73.47 |\n| canadian               |             5.75 |                            134.86 |\n| american               |             5.69 |                             92.77 |\n| filipino               |             5.61 |                             48.67 |\n| malaysian              |             5.52 |                             50.93 |\n| hawaiian               |             5.35 |                             99.92 |\n| vietnamese             |             5.11 |                             70.65 |\n| thai                   |             4.93 |                             65.85 |\n| southern-united-states |             4.82 |                            121.26 |\n| caribbean              |             4.76 |                             98.74 |\n| japanese               |             4.66 |                             70.07 |\n| south-african          |             4.53 |                             78.73 |\n| irish                  |             4.08 |                            202.21 |'
+
+
+This aggregate analysis reveals several interesting insights:
+1. Asian cuisines (Pakistani, Japanese, Korean, Chinese) tend to have higher health ratings on average
+2. Korean cuisine stands out with the longest average preparation time (278.45 minutes)
+3. Mexican cuisine combines a moderate health rating with relatively quick preparation times
+4. There's no strong correlation between preparation time and health rating or average rating, suggesting these are independent characteristics of different cuisines
+
+These patterns helped inform our model so we would know when adding numerical features into it, which would have a strong impact and which would have less of one as features in our classification model.
 
 
 **Imputation**: 
@@ -178,33 +189,33 @@ In our analysis we did not impute any values as all of our columns of interest a
 
 ## Framing a Prediction Problem
 
-This is a multiclass classification problem where I aim to predict the cuisine category of a dish (e.g., American, European, Asian, etc.) using features that would be known before the cuisine is identified. My response variable is the `cuisines` column, which I chose because it directly addresses my research question of whether we can identify a dish's culinary origin based on its characteristics.
-For model evaluation, I plan to use the F1-score rather than simple accuracy because:
+This is a multiclass classification problem where we aim to predict the cuisine category of a dish (e.g., American, European, Asian, etc.) using features that would be known before the cuisine is identified. Our response variable is the `cuisines` column, which we chose because it directly addresses our research question of whether we can identify a dish's culinary origin based on its characteristics.
+For model evaluation, we plan to use the F1-score rather than simple accuracy because:
 
-1. My dataset is heavily imbalanced (as shown in my univariate analysis where American/European cuisines dominate)
+1. Our dataset is heavily imbalanced (as shown in our univariate analysis where American/European cuisines dominate)
 2. F1-score provides a balanced measure of precision and recall, which is crucial when dealing with imbalanced classes
-3. It will help ensure my model performs well across all cuisine types, not just the dominant ones
+3. It will help ensure our model performs well across all cuisine types, not just the dominant ones
 
-The features I will use for prediction include:
+The features we will use for prediction include:
 
 - Ingredients (as these define the core composition of the dish)
 - Minutes (preparation time)
 - Health rating (calculated from nutritional information)
 
-I specifically excluded features like user ratings and reviews since these would only be available after a recipe is already categorized with its cuisine. This ensures my model only uses information that would be available at the "time of prediction" - when someone is trying to identify a cuisine based on a new recipe's characteristics.
+We specifically excluded features like user ratings and reviews since these would only be available after a recipe is already categorized with its cuisine. This ensures our model only uses information that would be available at the "time of prediction" - when someone is trying to identify a cuisine based on a new recipe's characteristics.
 
 ## Baseline Model
 
-My model uses a Random Forest Classifier with features that include both quantitative and categorical variables:
+Our model uses a Random Forest Classifier with features that include both quantitative and categorical variables:
 
 - Quantitative (1): `minutes` (preparation time)
 - Nominal (1): `ingredients` (text data converted to numerical features using TF-IDF vectorization)
 
-To handle these different types of features, I implemented a preprocessing pipeline that:
+To handle these different types of features, we implemented a preprocessing pipeline that:
 
 1. Applies StandardScaler to the 'minutes' feature to normalize the numerical data
 2. Uses TF-IDF vectorization for the 'ingredients' feature, converting the text data into a numerical matrix with 5000 features
-3. Addresses class imbalance using balanced class weights, which I computed based on the training data distribution
+3. Addresses class imbalance using balanced class weights, which we computed based on the training data distribution
 
 The model achieved an accuracy of 46.3% on the test set, with varying performance across different cuisines. Looking at the classification report:
 
@@ -212,7 +223,7 @@ The model achieved an accuracy of 46.3% on the test set, with varying performanc
 - Others like Canadian, Central-American, Hawaiian, and Malaysian have F1-scores of 0, likely due to limited representation in the training data
 - The weighted average F1-score is 0.42, reflecting the challenge of predicting across highly imbalanced classes
 
-I would not consider this current model "good" because:
+We would not consider this current model "good" because:
 
 1. The overall accuracy of 46.3% is relatively low for practical applications
 2. The model completely fails to predict several cuisines
